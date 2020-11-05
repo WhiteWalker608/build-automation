@@ -1,5 +1,11 @@
 name: Build acbi-geth
-on: workflow_dispatch
+on: 
+ workflow_dispatch:
+  inputs:
+   version:
+    description: 'geth binary version'
+    required: true
+    default: '1.0'
 jobs:
   build_abci-geth:
     name: Build abci-geth
@@ -22,4 +28,4 @@ jobs:
         export_default_credentials: true
     - name: Upload
       run: |
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/bin/geth gs://${{ secrets.GCS_BUCKET }}/bin/geth-linux-amd64
+       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/bin/geth gs://${{ secrets.GCS_BUCKET }}/bin/geth-${{github.event.inputs.version}}-linux-amd64
