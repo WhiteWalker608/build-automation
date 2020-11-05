@@ -1,0 +1,46 @@
+name: Update Versions
+on: 
+ workflow_dispatch:
+  inputs:
+   abci_geth-version:
+    description: 'geth binary version'
+    required: true
+    default: '1.0'
+   beacon-version:
+    description: 'beacon binary version'
+    required: true
+    default: '1.0'
+   eth_relay-version:
+    description: 'eth_relay binary version'
+    required: true
+    default: '1.0'
+   gateway_eth-version:
+    description: 'gateway_eth binary version'
+    required: true
+    default: '1.0'
+jobs:
+  update-versions:
+    name: update Versions
+    strategy:
+      matrix:
+        os: ['ubuntu-18.04']
+        build_type: [Release]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: master
+        repository: marlinprotocol/build-automation
+        submodules: recursive
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with: 
+        service_account_key: ${{ secrets.GCS_SA_KEY }}
+        export_default_credentials: true
+    - name: Update
+      run: |
+       gsutil cp gs://${{ secrets.GCS_BUCKET }}/bin/versions.json ./versions.json
+       python updateVersion.py beacon ${{github.event.inputs.beacon-version}}
+       python updateVersion.py eth_relay ${{github.event.inputs.eth_relay-version}}
+       python updateVersion.py geth ${{github.event.inputs.abci_geth-version}}
+       python updateVersion.py gateway_eth ${{github.event.inputs.gateway_eth-version}}
+       gsutil -h "Cache-Control:no-cache, max-age=0" cp ./versions.json gs://${{ secrets.GCS_BUCKET }}/bin/versions.json
