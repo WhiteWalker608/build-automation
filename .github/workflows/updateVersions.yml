@@ -5,17 +5,21 @@ on:
    abci_geth-version:
     description: 'geth binary version'
     required: true
-    default: '1.0'
+    default: '0.0.1'
    beacon-version:
     description: 'beacon binary version'
     required: true
-    default: '1.0'
+    default: '0.0.1'
    eth_relay-version:
     description: 'eth_relay binary version'
     required: true
-    default: '1.0'
+    default: '0.0.1'
    gateway_eth-version:
     description: 'gateway_eth binary version'
+    required: true
+    default: '0.0.1'
+   marlinctl-version:
+    description: 'marlinctl binary version'
     required: true
     default: '1.0'
 jobs:
@@ -43,4 +47,5 @@ jobs:
        python updateVersion.py eth_relay ${{github.event.inputs.eth_relay-version}}
        python updateVersion.py geth ${{github.event.inputs.abci_geth-version}}
        python updateVersion.py gateway_eth ${{github.event.inputs.gateway_eth-version}}
+       python updateVersion.py marlinctl ${{github.event.inputs.marlinctl-version}}
        gsutil -h "Cache-Control:no-cache, max-age=0" cp ./versions.json gs://${{ secrets.GCS_BUCKET }}/bin/versions.json
