@@ -47,6 +47,6 @@ jobs:
     - name: Upload
       run: |
        gsutil -h "Cache-Control:no-cache, max-age=0" cp build/beacon/beacon gs://${{ secrets.GCS_BUCKET }}/bin/beacon-${{github.event.inputs.beacon-version}}-linux-amd64
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/relay/eth_relay gs:/${{ secrets.GCS_BUCKET }}/bin/eth_relay-${{github.event.inputs.eth_relay-version}}-linux-amd64
+       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/relay/eth_relay gs://${{ secrets.GCS_BUCKET }}/bin/eth_relay-${{github.event.inputs.eth_relay-version}}-linux-amd64
        gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/eth/onramp_eth gs://${{ secrets.GCS_BUCKET }}/bin/gateway_eth-${{github.event.inputs.gateway_eth-version}}-linux-amd64
 
