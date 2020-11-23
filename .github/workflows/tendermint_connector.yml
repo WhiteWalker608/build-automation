@@ -21,16 +21,22 @@ jobs:
         ref: master
         repository: google/protobuf
         submodules: recursive
-    - name: Autogen and make
-      run: sh autogen.sh && make && make check && make install
+    - name: (1) ProtoC Autogen
+      run: sh autogen.sh
+    - name: (2) ProtoC make
+      run: make
+    - name: (3) ProtoC make check
+      run: make check
+    - name: (4) make install
+      run: sudo make install
     - name: Setup Go
       uses: actions/setup-go@v2
-    - name: Pull Codebase TendermintConnector
+    - name: Pull Codebase Tendermint Connector
       uses: actions/checkout@v2
       with:
         ref: main
         repository: supragya/TendermintConnector
-    - name: Build tendermint_connector
+    - name: Build Tendermint Connector
       run: make
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with: 
