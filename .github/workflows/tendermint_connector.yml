@@ -19,7 +19,6 @@ jobs:
       with:
         ref: master
         repository: supragya/TendermintConnector
-        submodules: recursive
     - uses: actions/setup-go@v2
     - name: Build tendermint_connector
       run: make
