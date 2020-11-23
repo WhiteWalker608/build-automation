@@ -37,8 +37,10 @@ jobs:
 #            sudo ldconfig
     - name: Setup Go
       uses: actions/setup-go@v2
+    - name: Install Protoc
+      uses: arduino/setup-protoc@v1
     - name: Get protoc-gen-go
-      run: go get github.com/golang/protobuf/protoc-gen-go
+      run: go get github.com/golang/protobuf/protoc-gen-go && export PATH="$PATH:$(go env GOPATH)/bin"
     - name: Pull Codebase Tendermint Connector
       uses: actions/checkout@v2
       with:
