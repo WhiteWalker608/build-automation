@@ -15,7 +15,15 @@ jobs:
         build_type: [Release]
     runs-on: ${{ matrix.os }}
     steps:
+    - uses: actions/checkout@v2
+    - name: Cache protobuf library
+      id: cache-protobuf
+      uses: actions/cache@v1
+      with:
+          path: protobuf
+          key: ${{ runner.os }}-protobuf
     - name: Build protobuf library
+      if: steps.cache-protobuf.outputs.cache-hit != 'true'
       run: |
            git clone https://github.com/protocolbuffers/protobuf.git
            cd protobuf
@@ -29,6 +37,8 @@ jobs:
            sudo ldconfig
     - name: Setup Go
       uses: actions/setup-go@v2
+    - name: Get protoc-gen-go
+      run: go get -u github.com/golang/protobuf/protoc-gen-go
     - name: Pull Codebase Tendermint Connector
       uses: actions/checkout@v2
       with:
