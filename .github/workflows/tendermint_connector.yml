@@ -22,13 +22,13 @@ jobs:
         repository: google/protobuf
         submodules: recursive
     - name: (1) Protobuf Autogen
-      run: pwd && sh autogen.sh
+      run: cd protobuf && pwd && sh autogen.sh
     - name: (2) Protobuf make
-      run: pwd && make
+      run: cd protobuf && pwd && make
     - name: (3) Protobuf make check
-      run: pwd && make check
+      run: cd protobuf && pwd && make check
     - name: (4) Protobuf make install
-      run: owd && sudo make install
+      run: cd protobuf && pwd && sudo make install
     - name: Setup Go
       uses: actions/setup-go@v2
     - name: Pull Codebase Tendermint Connector
