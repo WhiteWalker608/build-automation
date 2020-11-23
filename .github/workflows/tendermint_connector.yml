@@ -15,44 +15,24 @@ jobs:
         build_type: [Release]
     runs-on: ${{ matrix.os }}
     steps:
-#     - uses: actions/checkout@v2
-#     - name: Cache protobuf library
-#       id: cache-protobuf
-#       uses: actions/cache@v1
-#       with:
-#           path: protobuf
-#           key: ${{ runner.os }}-protobuf
-#     - name: Build protobuf library
-#       if: steps.cache-protobuf.outputs.cache-hit != 'true'
-#       run: |
-#            git clone https://github.com/protocolbuffers/protobuf.git
-#            cd protobuf
-#            git submodule update --init --recursive
-#            ./autogen.sh
-#            ./autogen.sh  # run autogen twice, see below
-#            ./configure
-#            make
-#            make check
-#            sudo make install
-#            sudo ldconfig
-    - name: Setup Go
+    - name: Setup Go environment
       uses: actions/setup-go@v2
-    - name: Install Protoc
+    - name: Install Protobuf Compiler
       uses: arduino/setup-protoc@v1
-    - name: Get protoc-gen-go
+    - name: Install protoc-gen-go for proto3 golang support
       run: go get github.com/golang/protobuf/protoc-gen-go && export PATH="$PATH:$(go env GOPATH)/bin"
     - name: Pull Codebase Tendermint Connector
       uses: actions/checkout@v2
       with:
         ref: main
         repository: supragya/TendermintConnector
-    - name: Build Tendermint Connector
+    - name: Build tendermint_connector
       run: make
     - name: Google Cloud Utilities Setup
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with: 
         service_account_key: ${{ secrets.GCS_SA_KEY }}
         export_default_credentials: true
-    - name: Upload artifact to Google Cloud
+    - name: Upload Build artifact (tendermint_connector) to Google Cloud
       run: |
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/tendermint_connector gs://${{ secrets.GCS_BUCKET }}/bin/tendermint_connector-linux-amd64
+       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/tendermint_connector gs://${{ secrets.GCS_BUCKET }}/bin/tendermint_connector-${{github.event.inputs.beacon-version}}-linux-amd64
