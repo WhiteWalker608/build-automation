@@ -15,13 +15,20 @@ jobs:
         build_type: [Release]
     runs-on: ${{ matrix.os }}
     steps:
+    - name: Install ProtoC
+    - uses: actions/checkout@v2
+      with:
+        ref: main
+        repository: google/protobuf
+        submodules: recursive
+    - name: Autogen and make
+      run: sh autogen.sh && make && make check && make install
+    - name: Pull Codebase TendermintConnector
     - uses: actions/checkout@v2
       with:
         ref: main
         repository: supragya/TendermintConnector
     - uses: actions/setup-go@v2
-    - name: Install Protoc
-      uses: arduino/setup-protoc@v1
     - name: Build tendermint_connector
       run: make
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
