@@ -22,7 +22,7 @@ jobs:
         repository: google/protobuf
         submodules: recursive
     - name: (1) Protobuf Autogen
-      run: cd protobuf && pwd && sh autogen.sh
+      run: ls && pwd && sh autogen.sh
     - name: (2) Protobuf make
       run: cd protobuf && pwd && make
     - name: (3) Protobuf make check
