@@ -20,6 +20,8 @@ jobs:
         ref: main
         repository: supragya/TendermintConnector
     - uses: actions/setup-go@v2
+    - name: Install Protoc
+      uses: arduino/setup-protoc@v1
     - name: Build tendermint_connector
       run: make
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
