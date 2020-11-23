@@ -18,7 +18,7 @@ jobs:
     - name: Install ProtoC
       uses: actions/checkout@v2
       with:
-        ref: main
+        ref: master
         repository: google/protobuf
         submodules: recursive
     - name: Autogen and make
