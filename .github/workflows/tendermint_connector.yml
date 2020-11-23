@@ -15,20 +15,18 @@ jobs:
         build_type: [Release]
     runs-on: ${{ matrix.os }}
     steps:
-    - name: Pull Codebase Protobuf
-      uses: actions/checkout@v2
-      with:
-        ref: master
-        repository: google/protobuf
-        submodules: recursive
-    - name: (1) Protobuf Autogen
-      run: sh autogen.sh
-    - name: (2) Protobuf make
-      run: pwd && make
-    - name: (3) Protobuf make check
-      run: make check
-    - name: (4) Protobuf make install
-      run: sudo make install
+    - name: Build protobuf library
+      run: |
+           git clone https://github.com/protocolbuffers/protobuf.git
+           cd protobuf
+           git submodule update --init --recursive
+           ./autogen.sh
+           ./autogen.sh  # run autogen twice, see below
+           ./configure
+           make
+           make check
+           sudo make install
+           sudo ldconfig
     - name: Setup Go
       uses: actions/setup-go@v2
     - name: Pull Codebase Tendermint Connector
