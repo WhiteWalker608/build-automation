@@ -22,7 +22,7 @@ on:
     description: 'marlinctl binary version'
     required: true
     default: '1.0'
-   tendermint-version:
+   tendermint_connector-version:
     description: 'tendermint_connector binary version'
     required: true
     default: '0.1-alpha'
