@@ -22,6 +22,10 @@ on:
     description: 'marlinctl binary version'
     required: true
     default: '1.0'
+   tendermint-version:
+    description: 'tendermint_connector binary version'
+    required: true
+    default: '0.1-alpha'
 jobs:
   update-versions:
     name: update Versions
@@ -48,4 +52,5 @@ jobs:
        python updateVersion.py geth ${{github.event.inputs.abci_geth-version}}
        python updateVersion.py gateway_eth ${{github.event.inputs.gateway_eth-version}}
        python updateVersion.py marlinctl ${{github.event.inputs.marlinctl-version}}
+       python updateVersion.py tendermint_connector ${{github.event.inputs.tendermint_connector-version}}
        gsutil -h "Cache-Control:no-cache, max-age=0" cp ./versions.json gs://${{ secrets.GCS_BUCKET }}/bin/versions.json
