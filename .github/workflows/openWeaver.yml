@@ -14,7 +14,7 @@ on:
      description: 'gateway_eth binary version'
      required: true
      default: '0.0.1'
-    gateway_eth-version:
+    near_gateway-version:
      description: 'gateway_eth binary version'
      required: true
      default: '0.0.1'
