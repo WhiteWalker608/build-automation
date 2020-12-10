@@ -15,7 +15,7 @@ on:
      required: true
      default: '0.0.1'
     near_gateway-version:
-     description: 'gateway_eth binary version'
+     description: 'near_gateway binary version'
      required: true
      default: '0.0.1'
 jobs:
