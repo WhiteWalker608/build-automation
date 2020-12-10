@@ -5,15 +5,19 @@ on:
     beacon-version:
      description: 'beacon binary version'
      required: true
-     default: '1.0'
+     default: '0.0.1'
     eth_relay-version:
      description: 'eth_relay binary version'
      required: true
-     default: '1.0'
+     default: '0.0.1'
     gateway_eth-version:
      description: 'gateway_eth binary version'
      required: true
-     default: '1.0'
+     default: '0.0.1'
+    gateway_eth-version:
+     description: 'gateway_eth binary version'
+     required: true
+     default: '0.0.1'
 jobs:
   build_openweaver:
     name: Build openWeaver
@@ -48,5 +52,5 @@ jobs:
       run: |
        gsutil -h "Cache-Control:no-cache, max-age=0" cp build/beacon/beacon gs://${{ secrets.GCS_BUCKET }}/bin/beacon-${{github.event.inputs.beacon-version}}-linux-amd64
        gsutil -h "Cache-Control:no-cache, max-age=0" cp build/relay/eth_relay gs://${{ secrets.GCS_BUCKET }}/bin/eth_relay-${{github.event.inputs.eth_relay-version}}-linux-amd64
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/eth/onramp_eth gs://${{ secrets.GCS_BUCKET }}/bin/gateway_eth-${{github.event.inputs.gateway_eth-version}}-linux-amd64
-
+       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/eth/onramp_eth gs://${{ secrets.GCS_BUCKET }}/bin/eth_gateway-${{github.event.inputs.gateway_eth-version}}-linux-amd64
+       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/near/near_gateway gs://${{ secrets.GCS_BUCKET }}/bin/near_gateway-${{github.event.inputs.near_gateway-version}}-linux-amd64
