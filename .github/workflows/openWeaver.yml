@@ -18,6 +18,10 @@ on:
      description: 'near_gateway binary version'
      required: true
      default: '0.0.1'
+    iris_bridge-version:
+     description: 'iris_bridge binary version'
+     required: true
+     default: '0.0.1'
 jobs:
   build_openweaver:
     name: Build openWeaver
@@ -54,3 +58,4 @@ jobs:
        gsutil -h "Cache-Control:no-cache, max-age=0" cp build/relay/eth_relay gs://${{ secrets.GCS_BUCKET }}/bin/eth_relay-${{github.event.inputs.eth_relay-version}}-linux-amd64
        gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/eth/onramp_eth gs://${{ secrets.GCS_BUCKET }}/bin/eth_gateway-${{github.event.inputs.gateway_eth-version}}-linux-amd64
        gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/near/near_gateway gs://${{ secrets.GCS_BUCKET }}/bin/near_gateway-${{github.event.inputs.near_gateway-version}}-linux-amd64
+       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/multicastsdk/iris_bridge gs://${{ secrets.GCS_BUCKET }}/bin/iris_bridge-${{github.event.inputs.near_gateway-version}}-linux-amd64
