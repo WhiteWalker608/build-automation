@@ -6,19 +6,9 @@ jobs:
     name: test Os
     strategy:
       matrix:
-        os: ['ubuntu-18.04']
-        build_type: [Release]
+        os: ['ubuntu-18.04', 'macos-latest']
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: master
-        repository: marlinprotocol/build-automation
-        submodules: recursive
-    - uses: actions/setup-go@v2
-    - name: GetOs
-      run: go run getOSandArch.go
-    - name: TestOs
-      run: echo $GOOS
-
+    - name: run command
+      run: gcc --version
       
