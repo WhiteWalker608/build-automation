@@ -20,6 +20,6 @@ jobs:
       run: go run getOSandArch.go
     - name: TestOs
       run: |
-      echo $GOOS
-      echo $GOARCH
+       echo $GOOS
+       echo $GOARCH
       
