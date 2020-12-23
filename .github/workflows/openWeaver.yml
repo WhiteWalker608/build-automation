@@ -23,18 +23,14 @@ on:
      required: true
      default: '0.0.1'
 jobs:
-  build_openweaver:
-    name: Build openWeaver
+  build_openweaver_linux:
+    name: Build openWeaver linux
     strategy:
       matrix:
         include:
         - os: 'ubuntu-18.04'
           build_type: Release
           GOOS: linux
-          GOARCH: amd64
-        - os: 'macos-latest'
-          build_type: Release
-          GOOS: darwin
           GOARCH: amd64
     runs-on: ${{ matrix.os }}
     steps:
@@ -57,4 +53,32 @@ jobs:
       run: cd build && ctest
     - name: Upload
       run: |
-        echo "marlinctl-${{matrix.GOOS}}-${{matrix.GOARCH}}"
+        echo "${{matrix.GOOS}}-${{matrix.GOARCH}}"
+  build_openweaver_mac:
+    name: Build openWeaver mac
+    strategy:
+      matrix:
+        include:
+        - os: 'macos-latest'
+          build_type: Release
+          GOOS: darwin
+          GOARCH: amd64
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: master
+        repository: marlinprotocol/OpenWeaver
+        submodules: recursive
+    - name: Build folder
+      run: mkdir build
+    - name: CMake
+      run: cd build && cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+    - name: Make
+      run: cd build && make -j4
+    - name: Tests
+      run: cd build && ctest
+    - name: Upload
+      run: |
+        echo "${{matrix.GOOS}}-${{matrix.GOARCH}}"
+
