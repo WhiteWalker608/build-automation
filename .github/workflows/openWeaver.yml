@@ -27,8 +27,15 @@ jobs:
     name: Build openWeaver
     strategy:
       matrix:
-        os: ['ubuntu-18.04']
-        build_type: [Release]
+        include:
+        - os: 'ubuntu-18.04'
+          build_type: Release
+          GOOS: linux
+          GOARCH: amd64
+        - os: 'macos-latest'
+          build_type: Release
+          GOOS: darwin
+          GOARCH: amd64
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -48,14 +55,6 @@ jobs:
       run: cd build && make -j4
     - name: Tests
       run: cd build && ctest
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with: 
-        service_account_key: ${{ secrets.GCS_SA_KEY }}
-        export_default_credentials: true
     - name: Upload
       run: |
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/beacon/beacon gs://${{ secrets.GCS_BUCKET }}/bin/beacon-${{github.event.inputs.beacon-version}}-linux-amd64
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/relay/eth_relay gs://${{ secrets.GCS_BUCKET }}/bin/eth_relay-${{github.event.inputs.eth_relay-version}}-linux-amd64
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/eth/onramp_eth gs://${{ secrets.GCS_BUCKET }}/bin/eth_gateway-${{github.event.inputs.gateway_eth-version}}-linux-amd64
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/integrations/near/near_gateway gs://${{ secrets.GCS_BUCKET }}/bin/near_gateway-${{github.event.inputs.near_gateway-version}}-linux-amd64
-       gsutil -h "Cache-Control:no-cache, max-age=0" cp build/multicastsdk/iris_bridge gs://${{ secrets.GCS_BUCKET }}/bin/iris_bridge-${{github.event.inputs.near_gateway-version}}-linux-amd64
+        echo "marlinctl-${{matrix.GOOS}}-${{matrix.GOARCH}}"
