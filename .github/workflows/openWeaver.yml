@@ -34,16 +34,12 @@ jobs:
           GOARCH: amd64
     runs-on: ${{ matrix.os }}
     steps:
+    - name: install brew
+      run: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     - name: install doxygen
       run: |
-        git clone https://github.com/doxygen/doxygen.git
-        cd doxygen
-        mkdir build
-        cd build
-        cmake -G "Unix Makefiles" ..
-        make
-        make install
-        cd ../..
+        brew install doxygen
     - uses: actions/checkout@v2
       with:
         ref: master
