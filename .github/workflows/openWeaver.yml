@@ -37,9 +37,10 @@ jobs:
     - name: install brew
       run: |
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    - name: install doxygen
+    - name: install tools
       run: |
         brew install doxygen
+        brew install autoconf automake libtool
     - uses: actions/checkout@v2
       with:
         ref: master
