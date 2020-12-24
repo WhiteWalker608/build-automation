@@ -1,0 +1,56 @@
+name: Build OpenWeaver Linux
+on:
+  workflow_dispatch:
+   inputs:
+    beacon-version:
+     description: 'beacon binary version'
+     required: true
+     default: '0.0.1'
+    eth_relay-version:
+     description: 'eth_relay binary version'
+     required: true
+     default: '0.0.1'
+    gateway_eth-version:
+     description: 'gateway_eth binary version'
+     required: true
+     default: '0.0.1'
+    near_gateway-version:
+     description: 'near_gateway binary version'
+     required: true
+     default: '0.0.1'
+    iris_bridge-version:
+     description: 'iris_bridge binary version'
+     required: true
+     default: '0.0.1'
+jobs:
+  build_openweaver_linux:
+    name: Build openWeaver linux
+    strategy:
+      matrix:
+        include:
+        - os: 'ubuntu-18.04'
+          build_type: Release
+          GOOS: linux
+          GOARCH: amd64
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: build_fixes
+        repository: marlinprotocol/OpenWeaver
+        submodules: recursive
+    - name: install doxygen
+      run: sudo apt-get install doxygen
+    - name: install graphviz dot
+      run: sudo apt install graphviz
+    - name: Build folder
+      run: mkdir build
+    - name: CMake
+      run: cd build && cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+    - name: Make
+      run: cd build && make -j4
+    - name: Tests
+      run: cd build && ctest
+    - name: Upload
+      run: |
+        echo "${{matrix.GOOS}}-${{matrix.GOARCH}}"
