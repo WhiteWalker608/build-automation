@@ -46,7 +46,7 @@ jobs:
         brew install autoconf automake libtool
     - uses: actions/checkout@v2
       with:
-        ref: master
+        ref: build_fixes
         repository: marlinprotocol/OpenWeaver
         submodules: recursive
     - name: Build folder
