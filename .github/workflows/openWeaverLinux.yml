@@ -4,24 +4,24 @@ on:
    inputs:
     beacon-version:
      description: 'beacon binary version'
-     required: true
-     default: '0.0.1'
+     required: false
+     default: 'nil'
     eth_relay-version:
      description: 'eth_relay binary version'
-     required: true
-     default: '0.0.1'
+     required: false
+     default: 'nil'
     gateway_eth-version:
      description: 'gateway_eth binary version'
-     required: true
-     default: '0.0.1'
+     required: false
+     default: 'nil'
     near_gateway-version:
      description: 'near_gateway binary version'
-     required: true
-     default: '0.0.1'
+     required: false
+     default: 'nil'
     iris_bridge-version:
      description: 'iris_bridge binary version'
-     required: true
-     default: '0.0.1'
+     required: false
+     default: 'nil'
 jobs: 
   build_openweaver_linux:
     name: Build openWeaver linux
