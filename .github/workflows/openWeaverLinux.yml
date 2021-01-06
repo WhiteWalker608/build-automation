@@ -22,7 +22,7 @@ on:
      description: 'iris_bridge binary version'
      required: true
      default: '0.0.1'
-jobs:
+jobs: 
   build_openweaver_linux:
     name: Build openWeaver linux
     strategy:
@@ -36,7 +36,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: build_fixes
+        ref: master
         repository: marlinprotocol/OpenWeaver
         submodules: recursive
     - name: install doxygen
@@ -47,8 +47,26 @@ jobs:
       run: mkdir build
     - name: CMake
       run: cd build && cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-    - name: Make
-      run: cd build && make -j4
+    - name: Make beacon
+      if: ${{github.event.inputs.beacon-version != 'nil'}}
+      run: |
+        cd build && make -j4 beacon_all
+    - name: Make eth_relay
+      if: ${{github.event.inputs.eth_relay-version != 'nil'}}
+      run: |
+        cd build && make -j4 eth_relay
+    - name: Make gateway_eth
+      if: ${{github.event.inputs.gateway_eth-version != 'nil'}}
+      run: |
+        cd build && make -j4 onramp-eth
+    - name: Make near_gateway
+      if: ${{github.event.inputs.near_gateway-version != 'nil'}}
+      run: |
+        cd build && make -j4 near_gateway
+    - name: Make iris_bridge
+      if: ${{github.event.inputs.iris_bridge-version != 'nil'}}
+      run: |
+        cd build && make -j4 iris_bridge
     - name: Tests
       run: cd build && ctest
     - name: Upload
