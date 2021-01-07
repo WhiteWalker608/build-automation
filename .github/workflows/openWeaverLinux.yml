@@ -58,7 +58,7 @@ jobs:
       run: |
         cd build && make -j4 beacon_all
         mv beacon/beacon beacon/beacon-${{matrix.GOOS}}_${{matrix.GOARCH}}
-        aws s3 cp beacon/beacon-${{matrix.GOOS}}_${{matrix.GOARCH}} s3://beta.artifacts.marlin.pro/projects/beacon/${{github.event.inputs.beacon-version}}
+        aws s3 cp beacon/beacon-${{matrix.GOOS}}_${{matrix.GOARCH}} s3://beta.artifacts.marlin.pro/projects/beacon/${{github.event.inputs.beacon-version}}/
     - name: Make eth_relay
       if: ${{github.event.inputs.eth_relay-version != 'nil'}}
       run: |
